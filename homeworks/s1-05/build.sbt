@@ -17,7 +17,7 @@ scalacOptions := List(
 
 lazy val root = (project in file("."))
   .settings(
-    name := "bachelor-s01-04",
+    name := "bachelor-s01-05",
     libraryDependencies += "dev.zio"        %% "zio"        % "2.0.21",
     libraryDependencies += "org.scalatest"  %% "scalatest"  % "3.2.0" % "test",
     libraryDependencies += "dev.zio"        %% "zio-test"   % "2.0.21" % "test"
