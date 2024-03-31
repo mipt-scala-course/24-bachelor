@@ -5,6 +5,10 @@
 1. [Введение в Scala. Синтаксис языка. Hello world.](homeworks/s1-01/README.md)
 2. [Алгебраические типы данных. Pattern matching. Параметрический полиморфизм.](homeworks/s1-02/README.md)
 3. [Коллекции](homeworks/s1-03/README.md)
+4. [Ленивые вычисления](homeworks/s1-04/README.md)
+5. [Функциональный дизайн. ZIO.](homeworks/s1-05/README.md)
+6. [Наследование и подтипирование](homeworks/s1-06/README.md)
+7. [Implicits. Typeclasses.](homeworks/s1-07/README.md)
 
 ## Подготовка рабочего места для работы над домашними заданиями
 
