@@ -9,8 +9,9 @@
 5. [Функциональный дизайн. ZIO.](homeworks/s1-05/README.md)
 6. [Наследование и подтипирование](homeworks/s1-06/README.md)
 7. [Implicits. Typeclasses.](homeworks/s1-07/README.md)
-7. [Scala Future](homeworks/s1-08/README.md)
-7. [ZIO Fiber](homeworks/s1-09/README.md)
+8. [Scala Future](homeworks/s1-08/README.md)
+9. [ZIO Fiber](homeworks/s1-09/README.md)
+10. [Newtypes](homeworks/s1-10/README.md)
 
 ## Подготовка рабочего места для работы над домашними заданиями
 
