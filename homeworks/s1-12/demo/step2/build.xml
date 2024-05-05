@@ -1,0 +1,71 @@
+<project name="AntScalaProject" default="all" basedir=".">
+
+    <property name="library.dir" value="lib" />
+    <property name="sources.dir" value="src" />
+    <property name="build.dir"   value="out" />
+    <property name="build.jar"   value="HelloCats.jar" />
+    
+    <property environment="env" />
+    <property name="scala.home" value="${env.SCALA_HOME}" />
+
+    <macrodef name="scalac">
+	<attribute name="class"  default="${sources.dir}/HelloCats.scala" />
+	<attribute name="output" default="${build.dir}" />
+	<attribute name="sourcepath" default="${sources.dir}" />
+	<attribute name="classpath"  default="${library.dir}/cats-core_3-2.9.0.jar:${library.dir}/cats-kernel_3-2.9.0.jar" />
+	<sequential>
+	    <exec executable="${scala.home}/bin/scalac">
+		<arg value="-d" />
+		<arg value="@{output}" />
+		<arg value="-sourcepath" />
+		<arg value="@{sourcepath}" />
+		<arg value="-cp" />
+		<arg value="@{classpath}" />
+		<arg value="@{class}" />
+	    </exec>
+	</sequential>
+    </macrodef>
+
+    <macrodef name="scala">
+	<attribute name="class" />
+	<attribute name="classpath"  default="${library.dir}/cats-core_3-2.9.0.jar:${library.dir}/cats-kernel_3-2.9.0.jar:${build.dir}" />
+	<sequential>
+	    <exec executable="${scala.home}/bin/scala">
+		<arg value="-cp" />
+		<arg value="@{classpath}" />
+		<arg value="@{class}" />
+	    </exec>
+	</sequential>
+    </macrodef>
+
+    <target name="clean">
+	<delete dir="${build.dir}" failonerror="false"/>
+	<delete file="${build.jar}"/>
+    </target>
+
+    <target name="init">
+	<mkdir dir="${build.dir}" />
+    </target>
+
+    <target name="build">
+	<antcall target="init" />
+	<scalac />
+    </target>
+
+    <target name="pack" depends="build">
+	<jar basedir="${build.dir}"
+	     jarfile="${build.jar}"
+	     manifest="utl/Manifest.txt"
+	/>
+    </target>
+
+    <target name="run">
+	<scala class="HelloCats" />
+    </target>
+
+    <target name="all">
+	<antcall target="build" />
+	<antcall target="run" />
+    </target>
+
+</project>
