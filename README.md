@@ -2,6 +2,8 @@
 # Домашние задания по курсу Scala в бакалавриате МФТИ
 
 Все домашние задания привязаны к семестру и лекции по номеру и находятся в папке [howeworks](homeworks):
+## 1 семестр
+
 1. [Введение в Scala. Синтаксис языка. Hello world.](homeworks/s1-01/README.md)
 2. [Алгебраические типы данных. Pattern matching. Параметрический полиморфизм.](homeworks/s1-02/README.md)
 3. [Коллекции](homeworks/s1-03/README.md)
@@ -12,6 +14,9 @@
 8. [Scala Future](homeworks/s1-08/README.md)
 9. [ZIO Fiber](homeworks/s1-09/README.md)
 10. [Newtypes](homeworks/s1-10/README.md)
+
+## 2 семестр
+1. [Обзор Scala 3. Введение в метапрограммирование](homeworks/s2-01/README.md)
 
 ## Подготовка рабочего места для работы над домашними заданиями
 
