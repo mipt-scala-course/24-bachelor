@@ -23,6 +23,7 @@
 5. [Паттерны функционального программирования. Монада. Monad transformer.](homeworks/s2-05/README.md)
 6. [Паттерны функционального программирования. Работа с ошибками.](homeworks/s2-06/README.md)
 6. [DSL Initial encoding. Отделяем логику высокого уровня от технических деталей.](homeworks/s2-07/README.md)
+6. [Tagless Final encoding. Прячем реализацию логики за trait.](homeworks/s2-08/README.md)
 
 ## Подготовка рабочего места для работы над домашними заданиями
 
