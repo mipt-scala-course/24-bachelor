@@ -22,9 +22,11 @@
 4. [Паттерны функционального программирования. Applicative. Traverse.](homeworks/s2-04/README.md)
 5. [Паттерны функционального программирования. Монада. Monad transformer.](homeworks/s2-05/README.md)
 6. [Паттерны функционального программирования. Работа с ошибками.](homeworks/s2-06/README.md)
-6. [DSL Initial encoding. Отделяем логику высокого уровня от технических деталей.](homeworks/s2-07/README.md)
-6. [Tagless Final encoding. Прячем реализацию логики за trait.](homeworks/s2-08/README.md)
-6. [Cats-Effect](homeworks/s2-09/README.md)
+7. [DSL Initial encoding. Отделяем логику высокого уровня от технических деталей.](homeworks/s2-07/README.md)
+8. [Tagless Final encoding. Прячем реализацию логики за trait.](homeworks/s2-08/README.md)
+9. [Cats-Effect](homeworks/s2-09/README.md)
+10. N/A
+11. [Тестирование](homeworks/s2-11/README.md)
 
 ## Подготовка рабочего места для работы над домашними заданиями
 
