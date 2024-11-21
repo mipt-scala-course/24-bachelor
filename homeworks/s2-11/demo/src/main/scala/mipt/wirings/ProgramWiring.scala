@@ -5,7 +5,7 @@ import dev.profunktor.redis4cats.{Redis, RedisCommands}
 import dev.profunktor.redis4cats.log4cats.*
 import mipt.cache.CardsCache
 import mipt.external.CardsExternalService
-import mipt.service.CardService
+import mipt.service.{CardMaskingImpl, CardService}
 import org.http4s.blaze.client.BlazeClientBuilder
 import org.typelevel.log4cats.Logger
 import org.typelevel.log4cats.slf4j.Slf4jLogger
@@ -23,5 +23,5 @@ object ProgramWiring:
       externalService = CardsExternalService(httpClient, externalServiceUri)
       redisCommands  <- redis(redisUri)
       cache           = CardsCache(redisCommands)
-      service         = CardService(externalService, cache)
+      service         = CardService(externalService, cache, CardMaskingImpl)
     yield service

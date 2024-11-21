@@ -4,6 +4,17 @@ import mipt.model._
 
 object CardsTestData:
 
+  val card       = Card(
+    CardUcid("123"),
+    CardNumber("5555-3333-2213-1231"),
+    10000
+  )
+  val maskedCard = Card(
+    CardUcid("123"),
+    CardNumber("5555-3******13-1231"),
+    10000
+  )
+
   val cards = List(
     Card(
       CardUcid("123"),

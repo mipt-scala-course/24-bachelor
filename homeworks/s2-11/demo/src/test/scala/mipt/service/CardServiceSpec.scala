@@ -16,6 +16,7 @@ class CardServiceSpec extends AsyncFlatSpec with Matchers with AsyncMockFactory 
       import env._
 
       externalService.getUserCards expects userId returning IO(cards)
+      cards.foreach(card => cardMasking.mask expects card returning card)
       cache.putUserCards expects (userId, cards) returning IO(())
 
       service.getUserCards(userId).map(_ shouldBe cards)
@@ -26,6 +27,7 @@ class CardServiceSpec extends AsyncFlatSpec with Matchers with AsyncMockFactory 
       import env._
 
       externalService.getUserCards expects userId returning IO(cards)
+      cards.foreach(card => cardMasking.mask expects card returning card)
       cache.putUserCards expects (userId, cards) returning IO.raiseError(
         new RuntimeException("Cache is not available")
       )
@@ -50,4 +52,5 @@ class CardServiceSpec extends AsyncFlatSpec with Matchers with AsyncMockFactory 
   trait TestEnvironment:
     val externalService = mock[CardsExternalService[IO]]
     val cache           = mock[CardsCache[IO]]
-    val service         = CardService(externalService, cache)
+    val cardMasking     = mock[CardMasking]
+    val service         = CardService(externalService, cache, cardMasking)

@@ -13,15 +13,21 @@ trait CardService[F[_]]:
 object CardService:
   private class Impl[F[_]: MonadThrow](
       externalService: CardsExternalService[F],
-      cache: CardsCache[F]
+      cache: CardsCache[F],
+      masking: CardMasking
   ) extends CardService[F]:
 
     override def getUserCards(userId: UserId): F[List[Card]] =
       val getAndCacheCards = for
-        cards <- externalService.getUserCards(userId)
-        _     <- cache.putUserCards(userId, cards).handleError(_ => ())
-      yield cards
+        cards      <- externalService.getUserCards(userId)
+        maskedCards = cards.map(masking.mask)
+        _          <- cache.putUserCards(userId, maskedCards).handleError(_ => ())
+      yield maskedCards
       getAndCacheCards.handleErrorWith(_ => cache.getUserCards(userId))
 
-  def apply[F[_]: MonadThrow](externalService: CardsExternalService[F], cache: CardsCache[F]): CardService[F] =
-    new Impl[F](externalService, cache)
+  def apply[F[_]: MonadThrow](
+      externalService: CardsExternalService[F],
+      cache: CardsCache[F],
+      masking: CardMasking
+  ): CardService[F] =
+    new Impl[F](externalService, cache, masking)
