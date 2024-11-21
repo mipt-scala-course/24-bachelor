@@ -8,7 +8,7 @@ import com.dimafeng.testcontainers.{MockServerContainer, RedisContainer}
 import com.dimafeng.testcontainers.scalatest.TestContainersForAll
 import dev.profunktor.redis4cats.RedisCommands
 import io.circe.syntax.*
-import mipt.testdata.CardsTestData
+import mipt.testdata.CardsTestData._
 import mipt.utils.MockServerClientWrapper
 import mipt.wirings.ProgramWiring
 import org.scalatest.flatspec.AsyncFlatSpec
@@ -18,11 +18,8 @@ class CardServiceIntegrationSpec extends AsyncFlatSpec with Matchers with TestCo
 
   override type Containers = MockServerContainer and RedisContainer
 
-  val testData = new CardsTestData {}
-  import testData._
-
   "getUserCards" should "return cards from external service and put them to cache for fallback" in
-    withEnvironment { (mockServer, redis, service) =>
+    testEnvironment { (mockServer, redis, service) =>
       for
         _ <- MockServerClientWrapper.mockGetCards(
                mockServer,
@@ -35,7 +32,7 @@ class CardServiceIntegrationSpec extends AsyncFlatSpec with Matchers with TestCo
     }
 
   it should "return cards from external service and update cache with them for fallback" in
-    withEnvironment { (mockServer, redis, service) =>
+    testEnvironment { (mockServer, redis, service) =>
       for
         _ <- redis.set(anotherUserId, cards.asJson.noSpaces)
         _ <- MockServerClientWrapper.mockGetCards(
@@ -54,7 +51,7 @@ class CardServiceIntegrationSpec extends AsyncFlatSpec with Matchers with TestCo
 
     mockServer and redis
 
-  def withEnvironment(
+  def testEnvironment(
       f: (MockServerContainer, RedisCommands[IO, String, String], CardService[IO]) => IO[Unit]
   ): IO[Unit] =
     withContainers { case mockServer and redis =>

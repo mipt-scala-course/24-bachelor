@@ -2,7 +2,7 @@ package mipt.testdata
 
 import mipt.model._
 
-trait CardsTestData:
+object CardsTestData:
 
   val cards = List(
     Card(

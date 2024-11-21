@@ -1,42 +1,53 @@
 package mipt.service
 
-import cats.effect.SyncIO
+import cats.effect.IO
+import cats.effect.testing.scalatest.AsyncIOSpec
 import mipt.cache.CardsCache
 import mipt.external.CardsExternalService
-import mipt.testdata.CardsTestData
-import org.scalamock.scalatest.MockFactory
-import org.scalatest.flatspec.AnyFlatSpec
+import mipt.testdata.CardsTestData._
+import org.scalamock.scalatest.AsyncMockFactory
+import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
 
-class CardServiceSpec extends AnyFlatSpec with Matchers with MockFactory:
+class CardServiceSpec extends AsyncFlatSpec with Matchers with AsyncMockFactory with AsyncIOSpec:
 
-  "getUserCards" should "return cards from external service and put them to cache for fallback" in new Wirings:
+  "getUserCards" should "return cards from external service and put them to cache for fallback" in
+    testEnvironment { env =>
+      import env._
 
-    externalService.getUserCards _ expects userId returning SyncIO(cards)
-    cache.putUserCards _ expects (userId, cards) returning SyncIO(())
+      externalService.getUserCards expects userId returning IO(cards)
+      cache.putUserCards expects (userId, cards) returning IO(())
 
-    service.getUserCards(userId).unsafeRunSync() shouldBe cards
+      service.getUserCards(userId).map(_ shouldBe cards)
+    }
 
-  it should "not fail if external service is available but cache is not" in new Wirings:
+  it should "not fail if external service is available but cache is not" in
+    testEnvironment { env =>
+      import env._
 
-    externalService.getUserCards _ expects userId returning SyncIO(cards)
-    cache.putUserCards _ expects (userId, cards) returning SyncIO.raiseError(
-      new RuntimeException("Cache is not available")
-    )
+      externalService.getUserCards expects userId returning IO(cards)
+      cache.putUserCards expects (userId, cards) returning IO.raiseError(
+        new RuntimeException("Cache is not available")
+      )
 
-    service.getUserCards(userId).unsafeRunSync() shouldBe cards
+      service.getUserCards(userId).map(_ shouldBe cards)
+    }
 
-  it should "return cards from fallback cache if external service is unavailable" in new Wirings:
+  it should "return cards from fallback cache if external service is unavailable" in
+    testEnvironment { env =>
+      import env._
 
-    externalService.getUserCards _ expects userId returning SyncIO.raiseError(
-      new RuntimeException("Database is unavailable")
-    )
-    cache.getUserCards _ expects userId returning SyncIO(cards)
+      externalService.getUserCards expects userId returning IO.raiseError(
+        new RuntimeException("Database is unavailable")
+      )
+      cache.getUserCards expects userId returning IO(cards)
 
-    service.getUserCards(userId).unsafeRunSync() shouldBe cards
+      service.getUserCards(userId).map(_ shouldBe cards)
+    }
 
-  trait Wirings extends CardsTestData:
+  def testEnvironment(f: TestEnvironment => IO[Unit]): IO[Unit] = f(new TestEnvironment {})
 
-    val externalService = mock[CardsExternalService[SyncIO]]
-    val cache           = mock[CardsCache[SyncIO]]
+  trait TestEnvironment:
+    val externalService = mock[CardsExternalService[IO]]
+    val cache           = mock[CardsCache[IO]]
     val service         = CardService(externalService, cache)
