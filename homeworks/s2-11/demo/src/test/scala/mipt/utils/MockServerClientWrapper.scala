@@ -10,7 +10,7 @@ import org.mockserver.model.HttpResponse.response
 object MockServerClientWrapper:
 
   def mockGetCards(mockServer: MockServerContainer, userId: String, cards: String): IO[Unit] = IO {
-    new MockServerClient("localhost", mockServer.serverPort)
+    new MockServerClient(mockServer.serverHost, mockServer.serverPort)
       .when(
         request()
           .withMethod("GET")
@@ -20,7 +20,7 @@ object MockServerClientWrapper:
   }
 
   def mockFailGetCards(mockServer: MockServerContainer, userId: String): IO[Unit] = IO {
-    new MockServerClient("localhost", mockServer.serverPort)
+    new MockServerClient(mockServer.serverHost, mockServer.serverPort)
       .when(
         request()
           .withMethod("GET")
