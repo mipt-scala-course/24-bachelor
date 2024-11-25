@@ -23,7 +23,9 @@ object CardService:
         maskedCards = cards.map(masking.mask)
         _          <- cache.putUserCards(userId, maskedCards).handleError(_ => ())
       yield maskedCards
-      getAndCacheCards.handleErrorWith(_ => cache.getUserCards(userId))
+      getAndCacheCards
+        .handleErrorWith(_ => cache.getUserCards(userId))
+        .handleError(_ => List.empty)
 
   def apply[F[_]: MonadThrow](
       externalService: CardsExternalService[F],

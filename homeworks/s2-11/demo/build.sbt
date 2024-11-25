@@ -25,6 +25,7 @@ libraryDependencies ++= List(
   "com.dimafeng"   %% "testcontainers-scala-scalatest"  % testcontainersVersion       % Test,
   "com.dimafeng"   %% "testcontainers-scala-redis"      % testcontainersVersion       % Test,
   "com.dimafeng"   %% "testcontainers-scala-mockserver" % testcontainersVersion       % Test,
+  "com.dimafeng"   %% "testcontainers-scala-toxiproxy"  % testcontainersVersion       % Test,
   "org.typelevel"  %% "cats-effect-testing-scalatest"   % catsEffectTestingVersion    % Test,
   "org.mock-server" % "mockserver-client-java"          % mockServerJavaClientVersion % Test
 )

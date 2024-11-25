@@ -18,3 +18,13 @@ object MockServerClientWrapper:
       )
       .respond(response().withBody(cards))
   }
+
+  def mockFailGetCards(mockServer: MockServerContainer, userId: String): IO[Unit] = IO {
+    new MockServerClient("localhost", mockServer.serverPort)
+      .when(
+        request()
+          .withMethod("GET")
+          .withPath(CardsExternalService.getCardsRelativePath(userId))
+      )
+      .respond(response().withStatusCode(500))
+  }
